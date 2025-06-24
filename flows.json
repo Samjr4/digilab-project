@@ -1,0 +1,773 @@
+[
+    {
+        "id": "39e06640b4908114",
+        "type": "tab",
+        "label": "Split Python LCD Control",
+        "disabled": false,
+        "info": "Uses separate Python scripts for init/clear and write, with Template node."
+    },
+    {
+        "id": "0f11fbf7bb184e40",
+        "type": "inject",
+        "z": "39e06640b4908114",
+        "name": "Initialize & Clear LCD",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.01",
+        "topic": "",
+        "x": 180,
+        "y": 60,
+        "wires": [
+            [
+                "9ff75e6d33f71fbd"
+            ]
+        ]
+    },
+    {
+        "id": "9ff75e6d33f71fbd",
+        "type": "exec",
+        "z": "39e06640b4908114",
+        "command": "python /home/Sam/digilab/lcd/init.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Run Init/Clear Script",
+        "x": 420,
+        "y": 80,
+        "wires": [
+            [
+                "1fbcda15d3cfa3a7"
+            ],
+            [
+                "8d84a9767cda22c8"
+            ],
+            [
+                "25fddcedb22aff47"
+            ]
+        ]
+    },
+    {
+        "id": "f7f91460a5ca19a4",
+        "type": "inject",
+        "z": "39e06640b4908114",
+        "name": "Write L1: \"Hello\"",
+        "props": [
+            {
+                "p": "line",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "hello",
+        "payloadType": "str",
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "ec341e3c55682fc3"
+            ]
+        ]
+    },
+    {
+        "id": "ec341e3c55682fc3",
+        "type": "template",
+        "z": "39e06640b4908114",
+        "name": "Build Write Command",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": " --line \"{{line}}\" --message \"{{payload}}\"",
+        "output": "str",
+        "x": 420,
+        "y": 340,
+        "wires": [
+            [
+                "42ad1432a9edc351",
+                "5490f7b0798ff32d"
+            ]
+        ]
+    },
+    {
+        "id": "42ad1432a9edc351",
+        "type": "exec",
+        "z": "39e06640b4908114",
+        "command": "python /home/Sam/digilab/lcd/write.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Run Write Script",
+        "x": 680,
+        "y": 340,
+        "wires": [
+            [
+                "bfa2b55169b15eee"
+            ],
+            [
+                "7558dee0b3b611a2"
+            ],
+            [
+                "fa0f330e1377fbe2"
+            ]
+        ]
+    },
+    {
+        "id": "1fbcda15d3cfa3a7",
+        "type": "debug",
+        "z": "39e06640b4908114",
+        "name": "Init stdout",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 620,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "8d84a9767cda22c8",
+        "type": "debug",
+        "z": "39e06640b4908114",
+        "name": "Init stderr",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 620,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "25fddcedb22aff47",
+        "type": "debug",
+        "z": "39e06640b4908114",
+        "name": "Init RC",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 610,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "5490f7b0798ff32d",
+        "type": "debug",
+        "z": "39e06640b4908114",
+        "name": "Write Cmd",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 610,
+        "y": 390,
+        "wires": []
+    },
+    {
+        "id": "bfa2b55169b15eee",
+        "type": "debug",
+        "z": "39e06640b4908114",
+        "name": "Write stdout",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 890,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "7558dee0b3b611a2",
+        "type": "debug",
+        "z": "39e06640b4908114",
+        "name": "Write stderr",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 890,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "fa0f330e1377fbe2",
+        "type": "debug",
+        "z": "39e06640b4908114",
+        "name": "Write RC",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 880,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "e90641ce2fe3c14a",
+        "type": "inject",
+        "z": "39e06640b4908114",
+        "name": "Write L2: \"Node-RED\"",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "line",
+                "v": "2",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Hello Sam",
+        "payloadType": "str",
+        "x": 180,
+        "y": 380,
+        "wires": [
+            [
+                "ec341e3c55682fc3"
+            ]
+        ]
+    },
+    {
+        "id": "be0d0b4b04b919d0",
+        "type": "exec",
+        "z": "39e06640b4908114",
+        "command": "python /home/Sam/digilab/lcd/backlight.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "screen on/off",
+        "x": 590,
+        "y": 180,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "b760fca994143a21",
+        "type": "change",
+        "z": "39e06640b4908114",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "off",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 160,
+        "wires": [
+            [
+                "be0d0b4b04b919d0"
+            ]
+        ]
+    },
+    {
+        "id": "24273aafdddba730",
+        "type": "switch",
+        "z": "39e06640b4908114",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 230,
+        "y": 120,
+        "wires": [
+            [
+                "9ff75e6d33f71fbd"
+            ],
+            [
+                "b760fca994143a21"
+            ]
+        ]
+    },
+    {
+        "id": "e7e1102dc4680752",
+        "type": "inject",
+        "z": "39e06640b4908114",
+        "name": "Playlist Url here",
+        "props": [
+            {
+                "p": "url",
+                "v": "https://open.spotify.com/playlist/708XLw0GV7tcJXbYZAphYB?si=2508a3d8ba5f4312&pt=d43522ca26c661f0b4e7e04ddfffd5de",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 200,
+        "y": 540,
+        "wires": [
+            [
+                "abbeec22f5c48abc"
+            ]
+        ]
+    },
+    {
+        "id": "abbeec22f5c48abc",
+        "type": "function",
+        "z": "39e06640b4908114",
+        "name": "api token credentials",
+        "func": "let client_id = \"e68c5c63759c48169e30a20ca60764ac\";\nlet client_secret = \"fd0e78b8214844a08c9f40950a77f2e4\";\n\n// Base64 encode client_id:client_secret\nlet credentials = Buffer.from(client_id + ':' + client_secret).toString('base64');\n\nmsg.headers = {\n    'Authorization': 'Basic ' + credentials,\n    'Content-Type': 'application/x-www-form-urlencoded'\n};\n\nmsg.payload = 'grant_type=client_credentials';\nmsg.method = 'POST';\nflow.set(\"playlisturl\", msg.url); // Save the URL to flow context\nmsg.url = 'https://accounts.spotify.com/api/token';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 540,
+        "wires": [
+            [
+                "49e12aa72f9b1a60"
+            ]
+        ]
+    },
+    {
+        "id": "49e12aa72f9b1a60",
+        "type": "http request",
+        "z": "39e06640b4908114",
+        "name": "fetching api token",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 650,
+        "y": 540,
+        "wires": [
+            [
+                "9ca0911cae082ef1"
+            ]
+        ]
+    },
+    {
+        "id": "9ca0911cae082ef1",
+        "type": "function",
+        "z": "39e06640b4908114",
+        "name": "API credentials",
+        "func": "try {\n    let data = JSON.parse(msg.payload);\n    if (data.access_token) {\n        msg.payload = data.access_token;\n    } else {\n        msg.payload = \"Error: access_token not found in parsed JSON.\";\n    }\n} catch (e) {\n    msg.payload = \"Error: Failed to parse JSON - \" + e.message;\n}\n\nconst accessToken = msg.payload; // assumes token is passed from previous node\n\nmsg.method = \"GET\";\n\n\nmsg.headers = {\n    Authorization: \"Bearer \" + accessToken\n};\nmsg.url = flow.get(\"playlisturl\"); // Retrieve URL from flow context\n\nif (!msg.url) {\n    node.error(\"Playlist URL not found in flow context\");\n    return null; // stop the flow here\n}\nlet url = msg.url; // e.g. https://open.spotify.com/playlist/3CLNAGjyjW19w7590CBxQF\n\nlet match = url.match(/playlist\\/([a-zA-Z0-9]+)/);\n\nif (match && match[1]) {\n    let playlistId = match[1];\n    msg.url = `https://api.spotify.com/v1/playlists/${playlistId}`;\n    \n} else {\n    node.error(\"Invalid Spotify playlist URL\");\n    return null;\n}\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 540,
+        "wires": [
+            [
+                "c7688220b60fd003"
+            ]
+        ]
+    },
+    {
+        "id": "c7688220b60fd003",
+        "type": "http request",
+        "z": "39e06640b4908114",
+        "name": "fetching playlist data",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1080,
+        "y": 540,
+        "wires": [
+            [
+                "9e5633a762c7145b"
+            ]
+        ]
+    },
+    {
+        "id": "9e5633a762c7145b",
+        "type": "function",
+        "z": "39e06640b4908114",
+        "name": "filtering data into array",
+        "func": "try {\n  msg.payload = JSON.parse(msg.payload);\n} catch (err) {\n  node.error(\"Failed to parse JSON: \" + err.message);\n  return null;\n}\nlet tracks = [];\nif (msg.payload.tracks && msg.payload.tracks.items) {\n    for (let item of msg.payload.tracks.items) {\n        let track = item.track;\n        if (track) {\n            let name = track.name;\n            let artists = track.artists.map(a => a.name).join(\", \");\n            tracks.push(`${name} — ${artists}`);\n        }\n    }\n    msg.payload = tracks;\n} else {\n    msg.payload = \"Error: Playlist tracks not found.\";\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1320,
+        "y": 540,
+        "wires": [
+            [
+                "c15c39ff95656dfe",
+                "f6e818af6f23a022"
+            ]
+        ]
+    },
+    {
+        "id": "c15c39ff95656dfe",
+        "type": "change",
+        "z": "39e06640b4908114",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "playlistarray",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1560,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "19a0238a3c0fb73b",
+        "type": "function",
+        "z": "39e06640b4908114",
+        "name": "randomiser",
+        "func": "let tracks = msg.payload || [];\nif (tracks.length === 0) {\n    node.warn('No tracks loaded — trigger the Inject node first.');\n    return null;\n}\nlet randomIndex = Math.floor(Math.random() * tracks.length);\nmsg.payload = tracks[randomIndex];\n\nlet songInfo = msg.payload; // The string \"title — artist\"\nlet parts = songInfo.split(' — '); // split on the dash separator\n\n// Safety check\nmsg.title = parts[0].trim(),\nmsg.artist = parts[1].trim()\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 600,
+        "wires": [
+            [
+                "e61f22deda630d8a",
+                "6f29d1ba94c16b0d"
+            ]
+        ]
+    },
+    {
+        "id": "f6e818af6f23a022",
+        "type": "debug",
+        "z": "39e06640b4908114",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1520,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "27c16152a64a0e7c",
+        "type": "rpi-gpio in",
+        "z": "39e06640b4908114",
+        "name": "S3",
+        "pin": "20",
+        "intype": "tri",
+        "debounce": "25",
+        "read": false,
+        "bcm": true,
+        "x": 90,
+        "y": 120,
+        "wires": [
+            [
+                "24273aafdddba730"
+            ]
+        ]
+    },
+    {
+        "id": "ab4d5fc1087e1886",
+        "type": "rpi-gpio in",
+        "z": "39e06640b4908114",
+        "name": "",
+        "pin": "16",
+        "intype": "tri",
+        "debounce": "25",
+        "read": false,
+        "bcm": true,
+        "x": 90,
+        "y": 600,
+        "wires": [
+            [
+                "6a39d77b89940acd"
+            ]
+        ]
+    },
+    {
+        "id": "c73aa028fa4b6cec",
+        "type": "change",
+        "z": "39e06640b4908114",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "playlistarray",
+                "tot": "flow",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 600,
+        "wires": [
+            [
+                "19a0238a3c0fb73b"
+            ]
+        ]
+    },
+    {
+        "id": "6a39d77b89940acd",
+        "type": "switch",
+        "z": "39e06640b4908114",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "regex",
+                "v": "1",
+                "vt": "num",
+                "case": false
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 1,
+        "x": 230,
+        "y": 600,
+        "wires": [
+            [
+                "c73aa028fa4b6cec"
+            ]
+        ]
+    },
+    {
+        "id": "f838d6be700d3e9a",
+        "type": "template",
+        "z": "39e06640b4908114",
+        "name": "Build Write Command",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": " --line \"{{line}}\" --message \"{{payload}}\"",
+        "output": "str",
+        "x": 1240,
+        "y": 600,
+        "wires": [
+            [
+                "e7988576ba1df0c4"
+            ]
+        ]
+    },
+    {
+        "id": "e7988576ba1df0c4",
+        "type": "exec",
+        "z": "39e06640b4908114",
+        "command": "python /home/Sam/digilab/lcd/write.py",
+        "addpay": "payload",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "Run Write Script",
+        "x": 1520,
+        "y": 600,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "e61f22deda630d8a",
+        "type": "change",
+        "z": "39e06640b4908114",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "title",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "line",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 780,
+        "y": 600,
+        "wires": [
+            [
+                "f838d6be700d3e9a"
+            ]
+        ]
+    },
+    {
+        "id": "6f29d1ba94c16b0d",
+        "type": "change",
+        "z": "39e06640b4908114",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "artist",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "line",
+                "pt": "msg",
+                "to": "2",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 780,
+        "y": 640,
+        "wires": [
+            [
+                "90760ff70b049686"
+            ]
+        ]
+    },
+    {
+        "id": "90760ff70b049686",
+        "type": "delay",
+        "z": "39e06640b4908114",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "0.5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 970,
+        "y": 640,
+        "wires": [
+            [
+                "f838d6be700d3e9a"
+            ]
+        ]
+    }
+]
